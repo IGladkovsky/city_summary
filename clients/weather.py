@@ -15,6 +15,7 @@ def get_weather(city: str) -> dict:
 
     latitude = geo_data["results"][0]["latitude"]
     longitude = geo_data["results"][0]["longitude"]
+    city = geo_data["results"][0]["name"]
 
     weather_response = make_get_request(
         "https://api.open-meteo.com/v1/forecast",
@@ -30,4 +31,9 @@ def get_weather(city: str) -> dict:
     except ValueError:
         raise ValueError("Неверный формат или неправильный JSON")
 
-    return weather_data
+    data_to_return = {
+        "name": city,
+        "weather_data": weather_data
+    }
+    
+    return data_to_return
