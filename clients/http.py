@@ -18,7 +18,7 @@ class ServiceUnavailableError(Exception):
 
 def make_get_request(
     url: str, params: dict | None = None, timeout: int = 10, max_retries: int = 2
-) -> dict:
+) -> requests.Response:
     for attempt in range(max_retries + 1):
         try:
             response = requests.get(url, params=params, timeout=timeout)

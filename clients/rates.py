@@ -10,5 +10,7 @@ def get_rate(currency: str = "USD") -> float:
         data = response.json()
     except ValueError:
         raise ValueError("Неверный формат или неправильный JSON")
-
+    rate = data.get("rate")
+    if rate is None:
+        raise ValueError("В ответе rates API отсутствует поле rate")
     return data["rate"]

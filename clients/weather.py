@@ -29,11 +29,21 @@ def get_weather(city: str) -> dict:
     try:
         weather_data = weather_response.json()
     except ValueError:
-        raise ValueError("Неверный формат или неправильный JSON")
+        raise ValueError("Неверный формат или неправильный weather JSON")
+
+    current = weather_data.get("current")
+    if not isinstance(current, dict):
+        raise TypeError("В ответе weather API отсутствует поле current")
+    temp = current.get("temperature_2m")
+    weather_code = current.get("weather_code")
+
+    if temp is None or weather_code is None:
+        raise ValueError("В ответе weather API отсутствуют обязательные поля")
 
     data_to_return = {
-        "name": city,
-        "weather_data": weather_data
+        "city": city,
+        "temp_c": temp,
+        "weather_code": weather_code,
     }
-    
+
     return data_to_return
